@@ -91,6 +91,22 @@ def cvs_writer(csv_output, csv_map, csv_header):
 	except:
 		logging.error("CVS writing error")
 
+
+def to_json(json_dictionary):
+	""" This simple function to dump dictionary to json string.
+	Simply pass a dictionary to this function and get json string.
+
+	Args:
+		json_dictionary (dict): dictionanry to converted to json formated string.
+
+    Returns:
+		json_dump (str): json_formated string
+    """
+	import json
+	logging.info("print sessions to stdout with json format")
+	print(json.dumps(sessions))
+
+
 # TODO: write the main execution code here
 def execution():
 	""" This is the main execution function in this module and it ...
@@ -118,6 +134,7 @@ def run():
 #	ap.add_argument('-n', '--new', default=False, action='store_true', help='set to run...')
 	ap.add_argument('-o', '--output', help='set filter for username or alert generator running host')
 	ap.add_argument('-v', '--verbos', default=False, action='store_true', help='set logging to verbos (debug level)')
+	ap.add_argument('-j', '--json', default=False, action='store_true', help='set print out result as json') 
 #	ap.add_argument('-m', '--min_something', type=int, default=1, help='set ..,')
 	
 
