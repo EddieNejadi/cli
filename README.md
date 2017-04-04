@@ -12,7 +12,7 @@ I got inspired from Writing Awesome Command-Line Programs in Python by Mark Smit
 * Can print the output to file or CSV
 * Can be set to terminate gracefully
 * Uses Popen (an inbox python subprocess module)
-* json support
+* Json support
 
 #### Reference 
 [![Writing Awesome Command-Line Programs in Python](https://i.ytimg.com/vi/gR73nLbbgqY/mqdefault.jpg)](https://www.youtube.com/watch?v=gR73nLbbgqY)
