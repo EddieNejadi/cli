@@ -1,13 +1,15 @@
-#!/usr/bin/python 
+#! /usr/bin/env python
 
 from __future__ import print_function
 
 # TODO: add color
+# TODO: add influx rest call event handler
+
 # TODO: update author name and verssion
 __author__="Mahdi Abdinejadi <mahdi.abdinejadi@hiq.se>"
 __version__= "0.0.2"
 __licence__ = "MIT"
-
+ 
 
 # TODO:  Please update this doc string
 """
@@ -17,7 +19,7 @@ Simple command line python template
 
 from dateutil.parser import parse
 from subprocess import Popen, PIPE, STDOUT
-import time, os, logging, signal
+import time, os, logging, signal, json
 from argparse import ArgumentParser
 from argparse import RawDescriptionHelpFormatter
 
@@ -102,7 +104,6 @@ def to_json(json_dictionary):
     Returns:
 		json_dump (str): json_formated string
     """
-	import json
 	logging.info("print sessions to stdout with json format")
 	print(json.dumps(sessions))
 
@@ -116,7 +117,7 @@ def execution():
 	Args:
 		
 	"""
-	
+
 	logging.info("Job is done")
 
 # TODO: Add desired argument and check them if it necessary
@@ -166,6 +167,33 @@ def run():
 	logging.info("ArgumentParser is done")
 	# TODO: Pass required variable to execution function
 	execution()
+
+
+def rest_api_call():
+	""" This function call rest full api end point
+
+	"""
+	# [TEST carmadm@h1cms50a ~]$curl -i -XPOST 'http://h1cms48a:8086/write?db=teststat' --data-binary 'cms_kpis,host=h1cms50a total_save_time=10.11,total_save_cpu=10.11'
+	# HTTP/1.1 204 No Content
+	# Content-Type: application/json
+	# Request-Id: d8c6a186-3eff-11e7-89d1-000000000000
+	# X-Influxdb-Version: 1.2.2
+	# Date: Mon, 22 May 2017 15:03:43 GMT
+
+	import pycurl, json, os
+	c = pycurl.Curl()
+	c.setopt(pycurl.URL,'http://h1cms48a:8086/write?db=teststat')
+	#  c.setopt(pycurl.HTTPHEADER, ['Accept: application/json'])
+	data = 'cms_kpis,host=h1cms50a total_save_time=10.33,total_save_cpu=10.33'
+	c.setopt(pycurl.POST, 1)
+	c.setopt(pycurl.POSTFIELDS, data)
+	c.setopt(pycurl.VERBOSE, 1)
+	c.perform()
+	print(c.getinfo(pycurl.RESPONSE_CODE))
+	print("###")
+	print("Hostname is: ", os.uname()[1])
+	print("User id is: ", os.getlogin())
+	c.close()
 
 
 def handler(signum, frame):
